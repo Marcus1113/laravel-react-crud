@@ -28,12 +28,11 @@ class PostController extends Controller
 
         $post = new Post();
         $post->title = $request->title;
-        $post->desription = $request->desription;
+        $post->description = $request->description;
         $post->save();
 
-        return response()->json([
-            'data'=>"Post Created"
-        ])
+
+        return response()->json(['data'=>"Post Created"]);
     }
 
     /**
@@ -55,7 +54,9 @@ class PostController extends Controller
      */
     public function edit($id)
     {
-        //
+        $Post = new PostResource(Post::findOrFail($id));
+
+        return $Post;
     }
 
     /**
@@ -67,7 +68,18 @@ class PostController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+       $request->validate([
+            'title'=>'required',
+            'description'=>'required',
+        ]);
+
+        $post = Post::findOrFail($id);
+        $post->title = $request->title;
+        $post->description = $request->description;
+        $post->save();
+        
+
+        return response()->json(['data'=>"Post updated!"]);
     }
 
     /**
@@ -78,6 +90,9 @@ class PostController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $post = Post::findOrFail($id);
+        $post->delete();
+
+        return response()->json(['data'=>"Post deleted!"]);
     }
 }

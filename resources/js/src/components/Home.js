@@ -23,7 +23,7 @@ const Home = () => {
                        <td>Sample Description</td>
                        <td>
                         <Link to="/edit/1" className="btn btn-warning">EDIT</Link>
-                           <a href="" className="btn btn-danger">DELTE</a>
+                        <a href="" className="btn btn-danger">DELTE</a>
                        </td>
                    </tr>
                    </tbody>
