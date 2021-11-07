@@ -1,8 +1,20 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import AppContainer from "./AppContainer";
+import api from '../api';
+import { useEffect } from 'react';
+
 
 const Home = () => {
+   
+    useEffect(() => {
+        api.getAllPosts().then(res => {
+            console.log('test get all posts');
+            console.log(res);
+        })
+    }, [])
+
+
     return (
        <AppContainer title="Laravel ReactJS -CRUD">
            <Link to="/add" className="btn btn-primary">ADD POST</Link>
