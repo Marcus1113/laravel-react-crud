@@ -5,7 +5,7 @@ import AppContainer from "./AppContainer";
 const Home = () => {
     return (
        <AppContainer title="Laravel ReactJS -CRUD">
-           <Link to="/add" className="btn btn-primary">Go somewhere</Link>
+           <Link to="/add" className="btn btn-primary">ADD POST</Link>
            <div className="table-responsive">
                <table className="table table-striped mt-4">
                    <thead>
@@ -22,7 +22,7 @@ const Home = () => {
                        <td>Sample Title</td>
                        <td>Sample Description</td>
                        <td>
-                           <a href="" className="btn btn-warning">EDIT</a>
+                        <Link to="/edit/1" className="btn btn-warning">EDIT</Link>
                            <a href="" className="btn btn-danger">DELTE</a>
                        </td>
                    </tr>
