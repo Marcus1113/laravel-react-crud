@@ -1,19 +1,62 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import AppContainer from "./AppContainer";
 import api from '../api';
-import { useEffect } from 'react';
-
 
 const Home = () => {
-   
-    useEffect(() => {
+
+    const [posts, setPosts] = useState(null);
+
+    const fetchPosts = () => {
         api.getAllPosts().then(res => {
             console.log('test get all posts');
-            console.log(res);
+            const result = res.data;
+            setPosts(result.data);
         })
-    }, [])
+    }
 
+    useEffect(() => {
+        fetchPosts();
+    }, []);
+
+    const renderPosts = () => {
+        if(!posts){
+            return (
+                <tr >
+                    <td colSpan="4">Loading posts....</td>
+                </tr>
+            );
+        }
+        if(posts.length === 0){
+
+            return (
+                <tr>
+                    <td colSpan="4">There is no posts yet. Add one.</td>
+                </tr>
+            );
+        }
+
+
+        return posts.map((post) => (
+            <tr key={post.id}>
+                <td>{post.id}</td>
+                <td>{post.title}</td>
+                <td>{post.description}</td>
+                <td>
+                    <Link className="btn btn-warning" to={`/edit/${post.id}`}>EDIT</Link>
+                    <button type="button" className="btn btn-danger"
+                            onClick={() => {
+                                api.deletePost(post.id)
+                                    .then(fetchPosts())
+                                    .catch(err => {
+                                   alert('Failed to delete post with id : '+ post.id);
+                                });
+                            }}
+                    >DELETE</button>
+                </td>
+            </tr>
+        ));
+    }
 
     return (
        <AppContainer title="Laravel ReactJS -CRUD">
@@ -29,15 +72,7 @@ const Home = () => {
                    </tr>
                    </thead>
                    <tbody>
-                   <tr>
-                       <td>1</td>
-                       <td>Sample Title</td>
-                       <td>Sample Description</td>
-                       <td>
-                        <Link to="/edit/1" className="btn btn-warning">EDIT</Link>
-                        <a href="" className="btn btn-danger">DELTE</a>
-                       </td>
-                   </tr>
+                       {renderPosts()}
                    </tbody>
                </table>
            </div>
